@@ -1,14 +1,18 @@
 import './App.css';
-import Nav from "./Nav"
-import NewCard from './Card'
+import Bar from './AppBar'
+import NavContent from './NavContent'
+import { ThemeProvider } from './contexts/ThemeContext'
+import CardList from './CardList'
 
 
 function App() {
   return (
-    <div className="App">
-      <Nav />
-      <NewCard />
-    </div>
+    <ThemeProvider>
+      <NavContent>
+        <Bar />
+      </NavContent>
+    </ThemeProvider>
+
   );
 }
 

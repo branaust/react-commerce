@@ -25,8 +25,7 @@ const useStyles = makeStyles(() => ({
         height: '100%',
         top: 0,
         left: 0,
-        zIndex: 100000,
-        backgroundPosition: 'center'
+        zIndex: 0,
     },
     content: {
         padding: 24,
@@ -47,13 +46,12 @@ const useStyles = makeStyles(() => ({
 
 export const NewsCard = React.memo(function NewsCard2() {
     const styles = useStyles();
-    const mediaStyles = useCoverCardMediaStyles();
     const shadowStyles = useLightTopShadowStyles();
 
     return (
         <Card className={cx(styles.root, shadowStyles.root)}>
             <CardMedia
-                classes={mediaStyles}
+                className={styles.card}
                 image={ichiro}
             />
             <CardActionArea>
