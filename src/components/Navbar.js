@@ -7,10 +7,10 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Switch from '@material-ui/core/Switch';
-import styles from './styles/NavbarStyles'
+import styles from '../styles/NavbarStyles'
 import { withStyles } from '@material-ui/core/styles'
-import { ThemeContext } from './contexts/ThemeContext'
-import { LanguageContext } from './contexts/LanguageContext'
+import { ThemeContext } from '../contexts/ThemeContext'
+import { LanguageContext } from '../contexts/LanguageContext'
 
 
 const languages = {

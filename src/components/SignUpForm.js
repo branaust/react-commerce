@@ -13,54 +13,56 @@ import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
-import styles from './styles/FormStyles'
-import { LanguageContext } from './contexts/LanguageContext'
-import useInputState from './hooks/useInputState'
-import { DisplayContext } from './contexts/DisplayContext'
+import styles from '../styles/FormStyles'
+import { LanguageContext } from '../contexts/LanguageContext'
+import useInputState from '../hooks/useInputState'
+import { DisplayContext } from '../contexts/DisplayContext'
 
 const languages = {
     english: {
         email: "Email",
         password: "Password",
-        remember: "Remember Me",
-        signin: "Sign In",
+        passwordConfirm: "Confirm Password",
+        signup: "Sign Up",
 
     },
     spanish: {
         email: "Correo Electrónico",
         password: "Contraseña",
-        remember: "Recuérdame",
-        signin: "Registrarse",
+        passwordConfirm: "confirmar Contraseña",
+        signup: "Contratar",
 
     },
     german: {
         email: 'Email',
         password: 'Passwort',
-        remember: "Behalte mich in Erinnerung",
-        signin: "Einloggen",
+        passwordConfirm: "Bestätige das Passwort",
+        signup: "Anmelden",
 
     }
 }
 
 
 
-function SignInForm(props) {
+function SignUpForm(props) {
     const { language, changeLanguage } = useContext(LanguageContext)
     const { toggleIsSignIn } = useContext(DisplayContext)
     const { classes } = props
-    const { email, password, remember, signin } = languages[language]
+    const { email, password, passwordConfirm, remember, signup } = languages[language]
     const [mail, updateMail, resetMail] = useInputState("")
     const [pass, updatePass, resetPass] = useInputState("")
+    const [passConfirm, updatePassConfirm, resetPassConfirm] = useInputState("")
 
     const submitForm = (e) => {
         e.preventDefault()
         resetMail()
         resetPass()
+        resetPassConfirm()
         toggleIsSignIn()
         console.log(mail, pass)
     }
 
-    const toggleSignUp = e => {
+    const toggleSignIn = (e) => {
         e.preventDefault()
         toggleIsSignIn()
     }
@@ -71,7 +73,7 @@ function SignInForm(props) {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography variant="h5">{signin}</Typography>
+                <Typography variant="h5">{signup}</Typography>
                 <Select value={language} onChange={changeLanguage}>
                     <MenuItem value="english">English</MenuItem>
                     <MenuItem value="spanish">Spanish</MenuItem>
@@ -84,21 +86,20 @@ function SignInForm(props) {
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="password">{password}</InputLabel>
-                        <Input id="password" name='password' value={pass} onChange={updatePass} autoFocus></Input>
+                        <Input id="password" name='password' value={pass} onChange={updatePassConfirm} autoFocus></Input>
                     </FormControl>
-                    <FormControlLabel control={<Checkbox color="primary" />} label={remember} />
-                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit}>{signin}</Button>
-                    <Typography className={classes.root}>
-                        <Link href="#">
-                            Forgot Password?
-                    </Link>
-                    </Typography>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="passwordConfirm">{passwordConfirm}</InputLabel>
+                        <Input id="password" name='password' value={passConfirm} onChange={updatePass} autoFocus></Input>
+                    </FormControl>
+                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit}>{signup}</Button>
+
                 </form>
             </Paper >
             <Typography className={classes.root}>
-                Need an account? &nbsp;
-                <Link onClick={toggleSignUp}>
-                    Sign Up
+                Already have an account? &nbsp;
+                <Link onClick={toggleSignIn}>
+                    Sign In
                     </Link>
             </Typography>
         </main >
@@ -106,4 +107,4 @@ function SignInForm(props) {
 }
 
 
-export default withStyles(styles)(SignInForm)
+export default withStyles(styles)(SignUpForm)

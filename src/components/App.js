@@ -1,11 +1,11 @@
-import './App.css';
+import '../styles/App.css';
 import Navbar from './Navbar'
 import Form from './SignInForm'
 import Display from './Display'
 import PageContent from './PageContent'
-import { ThemeProvider } from './contexts/ThemeContext'
-import { LanguageProvider } from './contexts/LanguageContext'
-import { DisplayProvider } from './contexts/DisplayContext'
+import { ThemeProvider } from '../contexts/ThemeContext'
+import { LanguageProvider } from '../contexts/LanguageContext'
+import { DisplayProvider } from '../contexts/DisplayContext'
 
 function App() {
   return (
