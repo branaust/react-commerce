@@ -14,6 +14,8 @@ import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from './styles/FormStyles'
 import { LanguageContext } from './contexts/LanguageContext'
+import useInputState from './hooks/useInputState'
+import { DisplayContext } from './contexts/DisplayContext'
 
 const languages = {
     english: {
@@ -39,10 +41,24 @@ const languages = {
     }
 }
 
+
+
 function Form(props) {
     const { language, changeLanguage } = useContext(LanguageContext)
+    const { toggleIsLogin } = useContext(DisplayContext)
     const { classes } = props
     const { email, password, remember, signin } = languages[language]
+    const [mail, updateMail, resetMail] = useInputState("")
+    const [pass, updatePass, resetPass] = useInputState("")
+
+    const submitForm = (e) => {
+        e.preventDefault()
+        resetMail()
+        resetPass()
+        toggleIsLogin()
+        console.log(mail, pass)
+    }
+
     return (
         <main className={classes.main}>
             <Paper className={classes.paper}>
@@ -55,14 +71,14 @@ function Form(props) {
                     <MenuItem value="spanish">Spanish</MenuItem>
                     <MenuItem value="german">German</MenuItem>
                 </Select>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">{email}</InputLabel>
-                        <Input id="email" name='email' autoFocus></Input>
+                        <Input id="email" name='email' value={mail} onChange={updateMail} autoFocus></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="password">{password}</InputLabel>
-                        <Input id="password" name='password' autoFocus></Input>
+                        <Input id="password" name='password' value={pass} onChange={updatePass} autoFocus></Input>
                     </FormControl>
                     <FormControlLabel control={<Checkbox color="primary" />} label={remember} />
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit}>{signin}</Button>
