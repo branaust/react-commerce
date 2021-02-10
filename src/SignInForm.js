@@ -46,7 +46,7 @@ const languages = {
 
 function SignInForm(props) {
     const { language, changeLanguage } = useContext(LanguageContext)
-    const { toggleIsLogin } = useContext(DisplayContext)
+    const { toggleIsSignIn } = useContext(DisplayContext)
     const { classes } = props
     const { email, password, remember, signin } = languages[language]
     const [mail, updateMail, resetMail] = useInputState("")
@@ -56,8 +56,13 @@ function SignInForm(props) {
         e.preventDefault()
         resetMail()
         resetPass()
-        toggleIsLogin()
+        toggleIsSignIn()
         console.log(mail, pass)
+    }
+
+    const toggleSignUp = e => {
+        e.preventDefault()
+        toggleIsSignIn()
     }
 
     return (
@@ -92,7 +97,7 @@ function SignInForm(props) {
             </Paper >
             <Typography className={classes.root}>
                 Need an account? &nbsp;
-                <Link href="#">
+                <Link onClick={toggleSignUp}>
                     Sign Up
                     </Link>
             </Typography>

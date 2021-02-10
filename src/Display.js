@@ -4,10 +4,10 @@ import SignUpForm from './SignUpForm'
 import { DisplayContext } from './contexts/DisplayContext'
 
 export default function Display() {
-    const { isLogin } = useContext(DisplayContext)
+    const { isSignIn } = useContext(DisplayContext)
     return (
         <div>
-            <SignUpForm />
+            {isSignIn ? <SignUpForm /> : <SignInForm />}
         </div>
     )
 }

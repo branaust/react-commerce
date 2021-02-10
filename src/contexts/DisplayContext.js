@@ -4,10 +4,10 @@ import useToggleState from '../hooks/useToggleState'
 export const DisplayContext = createContext()
 
 export function DisplayProvider(props) {
-    const [isLogin, toggleIsLogin] = useToggleState(true)
+    const [isSignIn, toggleIsSignIn] = useToggleState(false)
 
     return (
-        <DisplayContext.Provider value={{ isLogin, toggleIsLogin }}>
+        <DisplayContext.Provider value={{ isSignIn, toggleIsSignIn }}>
             {props.children}
         </DisplayContext.Provider>
     )
