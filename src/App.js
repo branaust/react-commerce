@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './Navbar'
-import Form from './Form'
+import Form from './SignInForm'
 import Display from './Display'
 import PageContent from './PageContent'
 import { ThemeProvider } from './contexts/ThemeContext'

@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -21,40 +22,42 @@ const languages = {
     english: {
         email: "Email",
         password: "Password",
-        remember: "Remember Me",
-        signin: "Sign In",
+        passwordConfirm: "Confirm Password",
+        signup: "Sign Up",
 
     },
     spanish: {
         email: "Correo Electrónico",
         password: "Contraseña",
-        remember: "Recuérdame",
-        signin: "Registrarse",
+        passwordConfirm: "confirmar Contraseña",
+        signup: "Contratar",
 
     },
     german: {
         email: 'Email',
         password: 'Passwort',
-        remember: "Behalte mich in Erinnerung",
-        signin: "Anmelden",
+        passwordConfirm: "Bestätige das Passwort",
+        signup: "Anmelden",
 
     }
 }
 
 
 
-function Form(props) {
+function SignUpForm(props) {
     const { language, changeLanguage } = useContext(LanguageContext)
     const { toggleIsLogin } = useContext(DisplayContext)
     const { classes } = props
-    const { email, password, remember, signin } = languages[language]
+    const { email, password, passwordConfirm, remember, signup } = languages[language]
     const [mail, updateMail, resetMail] = useInputState("")
     const [pass, updatePass, resetPass] = useInputState("")
+    const [passConfirm, updatePassConfirm, resetPassConfirm] = useInputState("")
 
     const submitForm = (e) => {
         e.preventDefault()
         resetMail()
         resetPass()
+        resetPassConfirm()
         toggleIsLogin()
         console.log(mail, pass)
     }
@@ -65,7 +68,7 @@ function Form(props) {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography variant="h5">{signin}</Typography>
+                <Typography variant="h5">{signup}</Typography>
                 <Select value={language} onChange={changeLanguage}>
                     <MenuItem value="english">English</MenuItem>
                     <MenuItem value="spanish">Spanish</MenuItem>
@@ -78,15 +81,25 @@ function Form(props) {
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="password">{password}</InputLabel>
-                        <Input id="password" name='password' value={pass} onChange={updatePass} autoFocus></Input>
+                        <Input id="password" name='password' value={pass} onChange={updatePassConfirm} autoFocus></Input>
                     </FormControl>
-                    <FormControlLabel control={<Checkbox color="primary" />} label={remember} />
-                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit}>{signin}</Button>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="passwordConfirm">{passwordConfirm}</InputLabel>
+                        <Input id="password" name='password' value={passConfirm} onChange={updatePass} autoFocus></Input>
+                    </FormControl>
+                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit}>{signup}</Button>
+
                 </form>
-            </Paper>
-        </main>
+            </Paper >
+            <Typography className={classes.root}>
+                Already have an account? &nbsp;
+                <Link href="#">
+                    Sign In
+                    </Link>
+            </Typography>
+        </main >
     )
 }
 
 
-export default withStyles(styles)(Form)
+export default withStyles(styles)(SignUpForm)

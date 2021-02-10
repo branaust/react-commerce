@@ -36,12 +36,22 @@ function Navbar(props) {
     const { isDarkMode, toggleTheme } = useContext(ThemeContext)
     const { language } = useContext(LanguageContext)
     const { search, flag, title } = languages[language]
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
     return (
         <div className={classes.root}>
             <AppBar position="static" color={isDarkMode ? 'default' : 'primary'}>
                 <Toolbar>
                     <IconButton
                         edge="start"
+                        onClick={handleDrawerOpen}
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"

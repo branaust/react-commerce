@@ -1,4 +1,9 @@
 const styles = theme => ({
+    root: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: theme.spacing(3)
+    },
     main: {
         width: "auto",
         display: "block",
