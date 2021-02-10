@@ -10,10 +10,32 @@ import Switch from '@material-ui/core/Switch';
 import styles from './styles/NavbarStyles'
 import { withStyles } from '@material-ui/core/styles'
 import { ThemeContext } from './contexts/ThemeContext'
+import { LanguageContext } from './contexts/LanguageContext'
+
+
+const languages = {
+    english: {
+        search: "Search",
+        flag: "🇺🇸",
+        title: "Context App"
+    },
+    spanish: {
+        search: "Buscar",
+        flag: "🇲🇽",
+        title: "Aplicación de contexto"
+    },
+    german: {
+        search: "Suche",
+        flag: "🇩🇪",
+        title: "Kontext-App"
+    }
+}
 
 function Navbar(props) {
     const { classes } = props
     const { isDarkMode, toggleTheme } = useContext(ThemeContext)
+    const { language } = useContext(LanguageContext)
+    const { search, flag, title } = languages[language]
     return (
         <div className={classes.root}>
             <AppBar position="static" color={isDarkMode ? 'default' : 'primary'}>
@@ -27,8 +49,8 @@ function Navbar(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Material-UI
-          </Typography>
+                        {title} {flag}
+                    </Typography>
                     <Switch
                         onChange={toggleTheme}
                         name="checkedA"
@@ -39,7 +61,7 @@ function Navbar(props) {
                             <SearchIcon />
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder={search}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,

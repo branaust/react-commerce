@@ -5,8 +5,6 @@ import NavContent from './NavContent'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { LanguageProvider } from './contexts/LanguageContext'
 
-
-
 function App() {
   return (
     <ThemeProvider>
