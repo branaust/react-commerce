@@ -1,42 +1,42 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
 import { LanguageContext } from '../contexts/LanguageContext'
 import useInputState from '../hooks/useInputState'
-import { DisplayContext } from '../contexts/DisplayContext'
+
 
 const languages = {
     english: {
-        email: "Email",
-        password: "Password",
-        passwordConfirm: "Confirm Password",
+        mail: "Email",
+        pass: "Password",
+        passConfirm: "Confirm Password",
         signup: "Sign Up",
 
     },
     spanish: {
-        email: "Correo Electrónico",
-        password: "Contraseña",
-        passwordConfirm: "confirmar Contraseña",
+        mail: "Correo Electrónico",
+        pass: "Contraseña",
+        passConfirm: "confirmar Contraseña",
         signup: "Contratar",
 
     },
     german: {
-        email: 'Email',
-        password: 'Passwort',
-        passwordConfirm: "Bestätige das Passwort",
+        mail: 'Email',
+        pass: 'Passwort',
+        passConfirm: "Bestätige das Passwort",
         signup: "Anmelden",
 
     }
@@ -46,26 +46,35 @@ const languages = {
 
 function SignUpForm(props) {
     const { language, changeLanguage } = useContext(LanguageContext)
-    const { toggleIsSignIn } = useContext(DisplayContext)
     const { classes } = props
-    const { email, password, passwordConfirm, remember, signup } = languages[language]
-    const [mail, updateMail, resetMail] = useInputState("")
-    const [pass, updatePass, resetPass] = useInputState("")
-    const [passConfirm, updatePassConfirm, resetPassConfirm] = useInputState("")
+    const { mail, pass, passConfirm, signup } = languages[language]
+    const [email, updateEmail] = useInputState("")
+    const [password, updatePassword] = useInputState("")
+    const [passwordConfirm, updatePasswordConfirm] = useInputState("")
+    const { authSignup } = useAuth()
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault()
-        resetMail()
-        resetPass()
-        resetPassConfirm()
-        toggleIsSignIn()
-        console.log(mail, pass)
+
+        if (password !== passwordConfirm) {
+            return setError("Passwords do not match")
+        }
+
+        try {
+            setError('')
+            setLoading(true)
+            await authSignup(email, password)
+            history.push('/')
+        } catch {
+            setError('Failed to create an account')
+        }
+        setLoading(false)
     }
 
-    const toggleSignIn = (e) => {
-        e.preventDefault()
-        toggleIsSignIn()
-    }
+
 
     return (
         <main className={classes.main}>
@@ -79,27 +88,29 @@ function SignUpForm(props) {
                     <MenuItem value="spanish">Spanish</MenuItem>
                     <MenuItem value="german">German</MenuItem>
                 </Select>
+                {error && <Alert severity="error">{error}</Alert>}
+
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">{email}</InputLabel>
-                        <Input id="email" name='email' value={mail} onChange={updateMail} autoFocus></Input>
+                        <InputLabel htmlFor="email">{mail}</InputLabel>
+                        <Input id="email" name='email' value={email} onChange={updateEmail} autoFocus></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">{password}</InputLabel>
-                        <Input id="password" name='password' value={pass} onChange={updatePassConfirm} autoFocus></Input>
+                        <InputLabel htmlFor="password">{pass}</InputLabel>
+                        <Input id="password" name='password' value={password} onChange={updatePassword} autoFocus></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="passwordConfirm">{passwordConfirm}</InputLabel>
-                        <Input id="password" name='password' value={passConfirm} onChange={updatePass} autoFocus></Input>
+                        <InputLabel htmlFor="passwordConfirm">{passConfirm}</InputLabel>
+                        <Input id="password" name='password' value={passwordConfirm} onChange={updatePasswordConfirm} autoFocus></Input>
                     </FormControl>
-                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit}>{signup}</Button>
+                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>{signup}</Button>
 
                 </form>
             </Paper >
             <Typography className={classes.root}>
                 Already have an account? &nbsp;
-                <Link onClick={toggleSignIn}>
-                    Sign In
+                <Link to="/login">
+                    Log In
                     </Link>
             </Typography>
         </main >
