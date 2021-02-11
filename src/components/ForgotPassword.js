@@ -1,18 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../styles/FormStyles'
 import { LanguageContext } from '../contexts/LanguageContext'
@@ -46,28 +42,28 @@ const languages = {
 
 
 
-function SignInForm(props) {
-    const { language, changeLanguage } = useContext(LanguageContext)
+function ForgotPassword(props) {
+    const { language } = useContext(LanguageContext)
     const { classes } = props
-    const { mail, pass, remember, signin } = languages[language]
+    const { mail } = languages[language]
     const [email, updateEmail] = useInputState("")
-    const [password, updatePassword] = useInputState("")
-    const { authLogin } = useAuth()
+    const { resetPassword } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const history = useHistory()
+    const [message, setMessage] = useState("")
 
 
-    const submitForm = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
+            setMessage('')
             setError('')
             setLoading(true)
-            await authLogin(email, password)
-            history.push('/')
+            await resetPassword(email)
+            setMessage('Check your inbox for further insructions')
         } catch {
-            setError('Failed to log in')
+            setError('Failed to reset password')
         }
         setLoading(false)
     }
@@ -78,35 +74,20 @@ function SignInForm(props) {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography variant="h5">{signin}</Typography>
-                <Select value={language} onChange={changeLanguage}>
-                    <MenuItem value="english">English</MenuItem>
-                    <MenuItem value="spanish">Spanish</MenuItem>
-                    <MenuItem value="german">German</MenuItem>
-                </Select>
+                <Typography variant="h5">Password Reset</Typography>
+                {message && <Alert severity="success">{message}</Alert>}
                 {error && <Alert severity="error">{error}</Alert>}
-                <form className={classes.form} onSubmit={submitForm}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">{mail}</InputLabel>
                         <Input id="email" name='email' value={email} onChange={updateEmail} autoFocus></Input>
                     </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">{pass}</InputLabel>
-                        <Input id="password" name='password' value={password} onChange={updatePassword} autoFocus></Input>
-                    </FormControl>
-                    <FormControlLabel control={<Checkbox color="primary" />} label={remember} />
-                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>{signin}</Button>
-                    <Typography className={classes.root}>
-                        <Link to="/forgot-password">
-                            Forgot Password?
-                    </Link>
-                    </Typography>
+                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Reset Password</Button>
                 </form>
             </Paper >
             <Typography className={classes.root}>
-                Need an account? &nbsp;
-                <Link to='/signup'>
-                    Sign Up
+                <Link to='/login'>
+                    Log In
                     </Link>
             </Typography>
         </main >
@@ -114,4 +95,4 @@ function SignInForm(props) {
 }
 
 
-export default withStyles(styles)(SignInForm)
+export default withStyles(styles)(ForgotPassword)

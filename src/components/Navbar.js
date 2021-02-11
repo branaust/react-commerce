@@ -59,7 +59,7 @@ function Navbar(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        {title} {flag}
+                        {flag}
                     </Typography>
                     <Switch
                         onChange={toggleTheme}
