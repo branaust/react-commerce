@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
@@ -11,41 +11,12 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../styles/FormStyles'
-import { LanguageContext } from '../contexts/LanguageContext'
 import useInputState from '../hooks/useInputState'
-
 import Alert from '@material-ui/lab/Alert';
-
-const languages = {
-    english: {
-        mail: "Email",
-        pass: "Password",
-        remember: "Remember Me",
-        signin: "Sign In",
-
-    },
-    spanish: {
-        mail: "Correo Electrónico",
-        pass: "Contraseña",
-        remember: "Recuérdame",
-        signin: "Registrarse",
-
-    },
-    german: {
-        mail: 'Email',
-        pass: 'Passwort',
-        remember: "Behalte mich in Erinnerung",
-        signin: "Einloggen",
-
-    }
-}
-
 
 
 function ForgotPassword(props) {
-    const { language } = useContext(LanguageContext)
     const { classes } = props
-    const { mail } = languages[language]
     const [email, updateEmail] = useInputState("")
     const { resetPassword } = useAuth()
     const [error, setError] = useState("")
@@ -55,7 +26,6 @@ function ForgotPassword(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         try {
             setMessage('')
             setError('')
@@ -79,7 +49,7 @@ function ForgotPassword(props) {
                 {error && <Alert severity="error">{error}</Alert>}
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">{mail}</InputLabel>
+                        <InputLabel htmlFor="email">Email</InputLabel>
                         <Input id="email" name='email' value={email} onChange={updateEmail} autoFocus></Input>
                     </FormControl>
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Reset Password</Button>

@@ -20,36 +20,9 @@ import useInputState from '../hooks/useInputState'
 
 import Alert from '@material-ui/lab/Alert';
 
-const languages = {
-    english: {
-        mail: "Email",
-        pass: "Password",
-        remember: "Remember Me",
-        signin: "Sign In",
-
-    },
-    spanish: {
-        mail: "Correo Electrónico",
-        pass: "Contraseña",
-        remember: "Recuérdame",
-        signin: "Registrarse",
-
-    },
-    german: {
-        mail: 'Email',
-        pass: 'Passwort',
-        remember: "Behalte mich in Erinnerung",
-        signin: "Einloggen",
-
-    }
-}
-
-
 
 function SignInForm(props) {
-    const { language, changeLanguage } = useContext(LanguageContext)
     const { classes } = props
-    const { mail, pass, remember, signin } = languages[language]
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const { authLogin } = useAuth()
@@ -76,28 +49,23 @@ function SignInForm(props) {
         <main className={classes.main}>
             <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon style={{}} />
                 </Avatar>
-                <Typography variant="h5">{signin}</Typography>
-                <Select value={language} onChange={changeLanguage}>
-                    <MenuItem value="english">English</MenuItem>
-                    <MenuItem value="spanish">Spanish</MenuItem>
-                    <MenuItem value="german">German</MenuItem>
-                </Select>
+                <Typography variant="h5">Sign In</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">{mail}</InputLabel>
+                        <InputLabel htmlFor="email">Email</InputLabel>
                         <Input id="email" name='email' value={email} onChange={updateEmail} autoFocus></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">{pass}</InputLabel>
-                        <Input id="password" name='password' value={password} onChange={updatePassword} autoFocus></Input>
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <Input id="password" name='password' value={password} type='password' onChange={updatePassword} autoFocus></Input>
                     </FormControl>
-                    <FormControlLabel control={<Checkbox color="primary" />} label={remember} />
-                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>{signin}</Button>
+                    <FormControlLabel control={<Checkbox color="primary" />} label='Remember Me' />
+                    <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading} >Sign In</Button>
                     <Typography className={classes.root}>
-                        <Link to="/forgot-password">
+                        <Link to="/forgot-password" className={classes.link}>
                             Forgot Password?
                     </Link>
                     </Typography>
@@ -105,7 +73,7 @@ function SignInForm(props) {
             </Paper >
             <Typography className={classes.root}>
                 Need an account? &nbsp;
-                <Link to='/signup'>
+                <Link to='/signup' className={classes.link}>
                     Sign Up
                     </Link>
             </Typography>

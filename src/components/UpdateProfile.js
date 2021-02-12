@@ -112,7 +112,7 @@ function UpdateProfile(props) {
                 </form>
             </Paper >
             <Typography className={classes.root}>
-                <Link to="/">
+                <Link to="/" className={classes.link}>
                     Cancel
                     </Link>
             </Typography>

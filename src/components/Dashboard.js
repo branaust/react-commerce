@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
-import { LanguageContext } from '../contexts/LanguageContext'
-import useInputState from '../hooks/useInputState'
 
 function Dashboard(props) {
     const { classes } = props
@@ -18,14 +16,12 @@ function Dashboard(props) {
 
     const handleLogout = async () => {
         setError('')
-
         try {
             await authLogout()
             history.push('/login')
         } catch{
             setError('Failed to log out')
         }
-
     }
 
     return (
@@ -34,10 +30,18 @@ function Dashboard(props) {
                 <h1>Profile</h1>
                 {error && <Alert severity="error">{error}</Alert>}
                 <h3>Email: {currentUser.email}</h3>
-                <Link to="/update-profile">Update Profile</Link>
+                <Link to="/update-profile" className={classes.link}>
+                    Update Profile
+                </Link>
             </Paper >
             <Typography className={classes.root}>
-                <Button onClick={handleLogout} variant="contained" fullWidth color="primary" className={classes.submit}>Logout</Button>
+                <Button
+                    onClick={handleLogout}
+                    variant="contained"
+                    fullWidth color="primary"
+                    className={classes.submit}>
+                    Logout
+                </Button>
             </Typography>
         </main >
     )

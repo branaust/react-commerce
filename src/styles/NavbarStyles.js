@@ -1,4 +1,8 @@
 import { fade } from '@material-ui/core/styles';
+const blue = '#7acdcf'
+const purple = '#532f87'
+const yellow = '#eddc15'
+
 
 const styles = theme => ({
     root: {
@@ -8,6 +12,7 @@ const styles = theme => ({
         marginRight: theme.spacing(2),
     },
     title: {
+        color: 'white',
         flexGrow: 1,
         display: 'none',
         [theme.breakpoints.up('sm')]: {

@@ -34,9 +34,10 @@ const languages = {
 function Navbar(props) {
     const { classes } = props
     const { isDarkMode, toggleTheme } = useContext(ThemeContext)
-    const { language } = useContext(LanguageContext)
-    const { search, flag, title } = languages[language]
     const [open, setOpen] = React.useState(false);
+    const blue = '#7acdcf'
+    const purple = '#532f87'
+    const yellow = '#eddc15'
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -47,7 +48,7 @@ function Navbar(props) {
     };
     return (
         <div className={classes.root}>
-            <AppBar position="static" color={isDarkMode ? 'default' : 'primary'}>
+            <AppBar position="static" style={{ backgroundColor: purple }}>
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -59,7 +60,7 @@ function Navbar(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        {flag}
+                        <h3>Slab Lab</h3>
                     </Typography>
                     <Switch
                         onChange={toggleTheme}
@@ -71,7 +72,7 @@ function Navbar(props) {
                             <SearchIcon />
                         </div>
                         <InputBase
-                            placeholder={search}
+                            placeholder='Search'
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
@@ -81,7 +82,7 @@ function Navbar(props) {
                     </div>
                 </Toolbar>
             </AppBar>
-        </div>
+        </div >
     );
 }
 

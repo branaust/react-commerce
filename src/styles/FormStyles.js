@@ -1,3 +1,7 @@
+const blue = '#7acdcf'
+const purple = '#532f87'
+const yellow = '#eddc15'
+
 const styles = theme => ({
     root: {
         display: 'flex',
@@ -24,14 +28,20 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing(),
-        backgroundColor: theme.palette.secondary.main
+        backgroundColor: yellow
     },
     form: {
         width: "100%",
         marginTop: theme.spacing(3)
     },
     submit: {
-        marginTop: theme.spacing(3)
+        marginTop: theme.spacing(3),
+        backgroundColor: purple
+    },
+    link: {
+        textDecoration: 'none',
+        color: purple
+
     }
 })
 
