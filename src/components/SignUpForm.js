@@ -15,6 +15,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { AuthContext } from '../contexts/AuthContext'
 import useInputState from '../hooks/useInputState'
 
 
@@ -46,32 +47,28 @@ const languages = {
 
 function SignUpForm(props) {
     const { language, changeLanguage } = useContext(LanguageContext)
+    const { error, setError } = useAuth()
     const { classes } = props
     const { mail, pass, passConfirm, signup } = languages[language]
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
-    const { authSignup } = useAuth()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
+    const { authSignup, success } = useAuth()
+    const { message, setMessage } = useAuth("")
+    const { loading, setLoading } = useAuth(false)
     const history = useHistory()
 
     const submitForm = async (e) => {
         e.preventDefault()
+        setError("")
 
         if (password !== passwordConfirm) {
             return setError("Passwords do not match")
         }
+        setError('')
+        setMessage('')
 
-        try {
-            setError('')
-            setLoading(true)
-            await authSignup(email, password)
-            history.push('/')
-        } catch {
-            setError('Failed to create an account')
-        }
-        setLoading(false)
+        await authSignup(email, password)
     }
 
 
@@ -89,7 +86,7 @@ function SignUpForm(props) {
                     <MenuItem value="german">German</MenuItem>
                 </Select>
                 {error && <Alert severity="error">{error}</Alert>}
-
+                {message && <Alert severity="success">{message}</Alert>}
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">{mail}</InputLabel>
