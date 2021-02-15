@@ -19,7 +19,8 @@ function UpdateProfile(props) {
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
-    const { currentUser, updateUserPassword, updateUserEmail } = useAuth()
+    const [bio, updateBio] = useInputState("")
+    const { user, updateUserPassword, updateUserEmail } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -63,18 +64,23 @@ function UpdateProfile(props) {
                 {error && <Alert severity="error">{error}</Alert>}
 
                 <form className={classes.form} onSubmit={submitForm}>
-                    <FormControl margin="normal" required fullWidth>
+                    <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="email" shrink>Email</InputLabel>
-                        <Input id="email" name='email' value={email} placeholder={currentUser.email} onChange={updateEmail} autoFocus required={false} ></Input>
+                        <Input id="email" name='email' value={email} placeholder={user.email} onChange={updateEmail} autoFocus required={false} ></Input>
                     </FormControl>
-                    <FormControl margin="normal" required fullWidth>
+                    <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="password" shrink>Password</InputLabel>
-                        <Input id="password" name='password' value={password} placeholder="Leave blank to keep the same" onChange={updatePassword} autoFocus required={false}></Input>
+                        <Input id="password" name='password' value={password} placeholder="Leave blank to keep the same" type="password" onChange={updatePassword} autoFocus required={false}></Input>
                     </FormControl>
-                    <FormControl margin="normal" required fullWidth>
+                    <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="passwordConfirm" shrink>Confirm Password</InputLabel>
-                        <Input id="password" name='password' value={passwordConfirm} placeholder="Leave blank to keep the same" onChange={updatePasswordConfirm} autoFocus required={false}></Input>
+                        <Input id="password" name='password' value={passwordConfirm} type="password" onChange={updatePasswordConfirm} autoFocus required={false}></Input>
                     </FormControl>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="bio" shrink>Bio</InputLabel>
+                        <Input id="bio" name='bio' onChange={updateBio} autoFocus required={false}></Input>
+                    </FormControl>
+
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Update</Button>
 
                 </form>

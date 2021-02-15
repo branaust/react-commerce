@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 import { useHistory } from 'react-router-dom'
 
 export const AuthContext = React.createContext()
@@ -10,7 +10,7 @@ export function useAuth() {
 
 export function AuthProvider(props) {
 
-    const [currentUser, setCurrentUser] = useState()
+    const [user, setUser] = useState()
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
@@ -21,6 +21,11 @@ export function AuthProvider(props) {
     const authSignup = async (email, password) => {
         try {
             await auth.createUserWithEmailAndPassword(email, password)
+            // .then(cred => {
+            //     return db.collection('users').doc(cred.user.uid).set({
+            //         bio: s
+            //     })
+            // })
             history.push('/')
             setMessage("Account Created")
             setSuccess(true)
@@ -50,17 +55,17 @@ export function AuthProvider(props) {
     }
 
     function updateUserEmail(email) {
-        return currentUser.updateEmail(email)
+        return user.updateEmail(email)
     }
 
     function updateUserPassword(password) {
-        return currentUser.updatePassword(password)
+        return user.updatePassword(password)
     }
 
 
     useEffect(() => {
         const unsubscribe = auth.onIdTokenChanged(user => {
-            setCurrentUser(user)
+            setUser(user)
             setLoading(false)
 
         })
@@ -78,7 +83,7 @@ export function AuthProvider(props) {
         setSuccess,
         message,
         setMessage,
-        currentUser,
+        user,
         authSignup,
         authLogin,
         authLogout,
