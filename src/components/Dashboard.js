@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+// import { useDB } from '../contexts/UserContext'
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +13,8 @@ function Dashboard(props) {
     const { classes } = props
     const [error, setError] = useState("")
     const { currentUser, authLogout } = useAuth()
+    const { message, setMessage } = useAuth("")
+    // const { user } = useDB()
     const history = useHistory()
 
     const handleLogout = async () => {
@@ -27,9 +30,11 @@ function Dashboard(props) {
     return (
         <main className={classes.main}>
             <Paper className={classes.paper}>
+                {message && <Alert severity="success">{message}</Alert>}
                 <h1>Profile</h1>
                 {error && <Alert severity="error">{error}</Alert>}
                 <h3>Email: {currentUser.email}</h3>
+                {/* <h4>{user.fname}{user.lname}</h4> */}
                 <Link to="/update-profile" className={classes.link}>
                     Update Profile
                 </Link>

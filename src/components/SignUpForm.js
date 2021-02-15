@@ -15,6 +15,7 @@ import styles from '../styles/FormStyles'
 import useInputState from '../hooks/useInputState'
 
 
+
 function SignUpForm(props) {
     const { error, setError } = useAuth()
     const { classes } = props
@@ -22,8 +23,8 @@ function SignUpForm(props) {
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
     const { authSignup } = useAuth()
-    const { message, setMessage } = useAuth("")
-    const { loading } = useAuth(false)
+    const { setMessage } = useAuth("")
+    const { loading } = useAuth()
 
     const submitForm = async (e) => {
         e.preventDefault()
@@ -32,7 +33,7 @@ function SignUpForm(props) {
         if (password !== passwordConfirm) {
             return setError("Passwords do not match")
         }
-        await authSignup(email, password)
+        // authSignup(email, password)
     }
 
 
@@ -44,7 +45,6 @@ function SignUpForm(props) {
                 </Avatar>
                 <Typography variant="h5">Sign Up</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
-                {message && <Alert severity="success">{message}</Alert>}
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>

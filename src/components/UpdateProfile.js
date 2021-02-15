@@ -66,7 +66,7 @@ function UpdateProfile(props) {
         const promises = []
         setLoading(true)
         setError("")
-        if (email !== currentUser.email) {
+        if (email) {
             promises.push(updateUserEmail(email))
         }
         if (password) {
@@ -97,7 +97,7 @@ function UpdateProfile(props) {
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email" shrink>{mail}</InputLabel>
-                        <Input id="email" name='email' value={email} placeholder={currentUser.email} onChange={updateEmail} autoFocus ></Input>
+                        <Input id="email" name='email' value={email} placeholder={currentUser.email} onChange={updateEmail} autoFocus required={false} ></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="password" shrink>{pass}</InputLabel>

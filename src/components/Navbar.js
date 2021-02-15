@@ -59,8 +59,8 @@ function Navbar(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        <h3>Slab Lab</h3>
+                    <Typography className={classes.title} variant="h3" noWrap>
+                        Slab Lab
                     </Typography>
                     <Switch
                         onChange={toggleTheme}

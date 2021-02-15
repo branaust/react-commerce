@@ -14,24 +14,27 @@ export function AuthProvider(props) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
+    const [success, setSuccess] = useState('false')
     const history = useHistory()
 
 
-    function authSignup(email, password) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                setMessage("Account Created")
-                setTimeout(() => { history.push('/') }, 1000)
+    const authSignup = async (email, password) => {
+        try {
+            await auth.createUserWithEmailAndPassword(email, password)
+            history.push('/')
+            setMessage("Account Created")
+            setSuccess(true)
+            setLoading(false)
+        } catch (error) {
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            if (errorCode) {
+                setError(errorMessage);
                 setLoading(false)
-            })
-            .catch(function (error) {
-                let errorCode = error.code;
-                let errorMessage = error.message;
-                if (errorCode) {
-                    setError(errorMessage);
-                    setLoading(false)
-                }
-            })
+            }
+        }
+
+
     }
 
     function authLogin(email, password) {
@@ -59,9 +62,10 @@ export function AuthProvider(props) {
         const unsubscribe = auth.onIdTokenChanged(user => {
             setCurrentUser(user)
             setLoading(false)
+
         })
         return unsubscribe
-    }, [])
+    }, [history])
 
 
 
@@ -70,6 +74,8 @@ export function AuthProvider(props) {
         setError,
         loading,
         setLoading,
+        success,
+        setSuccess,
         message,
         setMessage,
         currentUser,
