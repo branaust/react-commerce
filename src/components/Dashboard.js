@@ -8,13 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
+import { useDB } from '../contexts/UserContext'
 
 function Dashboard(props) {
     const { classes } = props
     const [error, setError] = useState("")
     const { currentUser, authLogout } = useAuth()
-    const { message, setMessage } = useAuth("")
-    // const { user } = useDB()
+    const { message } = useAuth("")
+    const { users } = useDB()
     const history = useHistory()
 
     const handleLogout = async () => {
@@ -22,7 +23,7 @@ function Dashboard(props) {
         try {
             await authLogout()
             history.push('/login')
-        } catch{
+        } catch {
             setError('Failed to log out')
         }
     }
@@ -33,6 +34,13 @@ function Dashboard(props) {
                 {message && <Alert severity="success">{message}</Alert>}
                 <h1>Profile</h1>
                 {error && <Alert severity="error">{error}</Alert>}
+                {users && users.map(user => {
+                    return (
+                        <div>
+                            <p>{user.fname}</p>
+                        </div>
+                    )
+                })}
                 <h3>Email: {currentUser.email}</h3>
                 {/* <h4>{user.fname}{user.lname}</h4> */}
                 <Link to="/update-profile" className={classes.link}>

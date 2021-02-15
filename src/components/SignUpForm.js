@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
 import useInputState from '../hooks/useInputState'
+import { db, auth } from '../firebase'
 
 
 
@@ -33,8 +34,9 @@ function SignUpForm(props) {
         if (password !== passwordConfirm) {
             return setError("Passwords do not match")
         }
-        // authSignup(email, password)
+        authSignup(email, password)
     }
+
 
 
     return (
@@ -45,6 +47,7 @@ function SignUpForm(props) {
                 </Avatar>
                 <Typography variant="h5">Sign Up</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
+
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
@@ -56,7 +59,7 @@ function SignUpForm(props) {
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="passwordConfirm">Confirm Password</InputLabel>
-                        <Input id="password" name='password' type="password" value={passwordConfirm} onChange={updatePasswordConfirm} autoFocus></Input>
+                        <Input id="passwordConfirm" name='password' type="password" value={passwordConfirm} onChange={updatePasswordConfirm} autoFocus></Input>
                     </FormControl>
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Sign Up</Button>
                 </form>

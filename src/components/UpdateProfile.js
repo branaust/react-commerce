@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
@@ -9,45 +9,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
-import { LanguageContext } from '../contexts/LanguageContext'
 import useInputState from '../hooks/useInputState'
 
-
-const languages = {
-    english: {
-        mail: "Email",
-        pass: "Password",
-        passConfirm: "Confirm Password",
-        signup: "Sign Up",
-
-    },
-    spanish: {
-        mail: "Correo Electrónico",
-        pass: "Contraseña",
-        passConfirm: "confirmar Contraseña",
-        signup: "Contratar",
-
-    },
-    german: {
-        mail: 'Email',
-        pass: 'Passwort',
-        passConfirm: "Bestätige das Passwort",
-        signup: "Anmelden",
-
-    }
-}
-
-
-
 function UpdateProfile(props) {
-    const { language, changeLanguage } = useContext(LanguageContext)
     const { classes } = props
-    const { mail, pass, passConfirm, signup } = languages[language]
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
@@ -96,15 +64,15 @@ function UpdateProfile(props) {
 
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email" shrink>{mail}</InputLabel>
+                        <InputLabel htmlFor="email" shrink>Email</InputLabel>
                         <Input id="email" name='email' value={email} placeholder={currentUser.email} onChange={updateEmail} autoFocus required={false} ></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password" shrink>{pass}</InputLabel>
+                        <InputLabel htmlFor="password" shrink>Password</InputLabel>
                         <Input id="password" name='password' value={password} placeholder="Leave blank to keep the same" onChange={updatePassword} autoFocus required={false}></Input>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="passwordConfirm" shrink>{passConfirm}</InputLabel>
+                        <InputLabel htmlFor="passwordConfirm" shrink>Confirm Password</InputLabel>
                         <Input id="password" name='password' value={passwordConfirm} placeholder="Leave blank to keep the same" onChange={updatePasswordConfirm} autoFocus required={false}></Input>
                     </FormControl>
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Update</Button>

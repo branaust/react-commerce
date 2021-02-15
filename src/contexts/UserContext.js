@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { db } from '../firebase'
 
 export const UserContext = React.createContext()
@@ -7,28 +7,28 @@ export function useDB() {
     return useContext(UserContext)
 }
 
-function renderUsers(doc) {
-    return (
-        <div>
-            <li></li>
-        </div>
-    )
-}
 
 export function UserProvider(props) {
 
-    const [user, setUser] = useState("")
+    const [users, setUsers] = useState(null)
 
-
-    // db.collection('users').get().then((snapshot) => {
-    //     snapshot.docs.forEach(doc => {
-    //         setUser(doc.data())
-
-    //     })
-    // })
+    useEffect(() => {
+        db.collection('users')
+            .get()
+            .then(snapshot => {
+                const users = []
+                snapshot.forEach(doc => {
+                    const data = doc.data()
+                    users.push(data)
+                })
+                setUsers(users)
+                console.log('Running Once?')
+            })
+            .catch(error => console.log(error))
+    }, [])
 
     const value = {
-        user
+        users
     }
 
     return (
