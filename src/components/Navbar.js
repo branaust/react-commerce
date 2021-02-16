@@ -33,7 +33,6 @@ const languages = {
 
 function Navbar(props) {
     const { classes } = props
-    const { isDarkMode, toggleTheme } = useContext(ThemeContext)
     const [open, setOpen] = React.useState(false);
     const blue = '#7acdcf'
     const purple = '#532f87'
@@ -62,11 +61,11 @@ function Navbar(props) {
                     <Typography className={classes.title} variant="h3" noWrap>
                         Slab Lab
                     </Typography>
-                    <Switch
+                    {/* <Switch
                         onChange={toggleTheme}
                         name="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    />
+                    /> */}
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />

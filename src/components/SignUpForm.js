@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
@@ -13,10 +13,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
 import useInputState from '../hooks/useInputState'
-import { db, auth } from '../firebase'
-import { useHistory } from 'react-router-dom'
-
-
 
 
 function SignUpForm(props) {
@@ -36,8 +32,6 @@ function SignUpForm(props) {
         await authSignup(email, password)
 
     }
-
-
 
     return (
         <main className={classes.main}>

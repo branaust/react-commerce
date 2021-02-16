@@ -20,32 +20,35 @@ export function AuthProvider(props) {
 
 
     const authSignup = async (email, password) => {
-        try {
-            await auth.createUserWithEmailAndPassword(email, password)
-                .then(() => {
-                    db.collection('users').doc(auth.currentUser.uid)
-                        .set({
-                            firstName: null,
-                            lastName: null,
-                            birthday: null,
-                            email: email
-                        }).then(() => {
-                            setMessage("Account Created")
-                            setSuccess(true)
-                            setLoading(false)
-                        })
-                })
-            !!!!!!!history.push('/')
-        } catch (error) {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            if (errorCode) {
-                setError(errorMessage);
-                setLoading(false)
+
+        await auth.createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                db.collection('users').doc(auth.currentUser.uid)
+                    .set({
+                        firstName: null,
+                        lastName: null,
+                        birthday: null,
+                        email: email
+                    }).then(() => {
+                        history.push('/')
+                        setMessage("Account Created")
+                        setSuccess(true)
+                        setLoading(false)
+                    })
+
+            })
+
+            .catch((error) => {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                if (errorCode) {
+                    setError(errorMessage);
+                    setLoading(false)
+                }
             }
-        }
 
 
+            )
     }
 
     const authLogin = async (email, password) => {
