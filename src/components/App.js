@@ -18,13 +18,13 @@ import PrivateRoute from '../components/PrivateRoute'
 
 function App() {
   return (
-    <UserProvider>
-      <ThemeProvider>
-        <LanguageProvider>
-          <PageContent>
-            <Navbar />
-            <Router>
-              <AuthProvider>
+    <AuthProvider>
+      <UserProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <PageContent>
+              <Navbar />
+              <Router>
                 <Switch>
                   <PrivateRoute exact path="/" component={Dashboard} />
                   <PrivateRoute path="/update-profile" component={UpdateProfile} />
@@ -32,12 +32,12 @@ function App() {
                   <Route path="/login" component={SignInForm} />
                   <Route path="/forgot-password" component={ForgotPassword} />
                 </Switch>
-              </AuthProvider>
-            </Router>
-          </PageContent>
-        </LanguageProvider>
-      </ThemeProvider >
-    </UserProvider >
+              </Router>
+            </PageContent>
+          </LanguageProvider>
+        </ThemeProvider >
+      </UserProvider >
+    </AuthProvider>
 
   );
 }

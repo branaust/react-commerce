@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 // import { useDB } from '../contexts/UserContext'
@@ -13,9 +13,7 @@ import { useDB } from '../contexts/UserContext'
 function Dashboard(props) {
     const { classes } = props
     const [error, setError] = useState("")
-    const { user, authLogout } = useAuth()
-    const { message } = useAuth("")
-    const { users } = useDB()
+    const { currentUser, authLogout, message, currentUserData } = useAuth()
     const history = useHistory()
 
     const handleLogout = async () => {
@@ -28,20 +26,22 @@ function Dashboard(props) {
         }
     }
 
+
+
     return (
         <main className={classes.main}>
             <Paper className={classes.paper}>
                 {message && <Alert severity="success">{message}</Alert>}
                 <h1>Profile</h1>
                 {error && <Alert severity="error">{error}</Alert>}
-                {users && users.map(user => {
-                    return (
-                        <div>
-                            <p>{user.fname}</p>
-                        </div>
-                    )
-                })}
-                <h3>Email: {user.email}</h3>
+                <ul>
+                    <li>{currentUserData.email}</li>
+                    <li>{currentUserData.firstName}</li>
+                    <li>{currentUserData.lastName}</li>
+                    <li>{currentUserData.birthday}</li>
+                </ul>
+
+                <h3>Email: {currentUser.email}</h3>
                 {/* <h4>{user.fname}{user.lname}</h4> */}
                 <Link to="/update-profile" className={classes.link}>
                     Update Profile

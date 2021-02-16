@@ -14,18 +14,17 @@ import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
 import useInputState from '../hooks/useInputState'
 import { db, auth } from '../firebase'
+import { useHistory } from 'react-router-dom'
+
 
 
 
 function SignUpForm(props) {
-    const { error, setError } = useAuth()
+    const { error, setError, setMessage, authSignup, loading, currentUser } = useAuth()
     const { classes } = props
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
-    const { authSignup } = useAuth()
-    const { setMessage } = useAuth("")
-    const { loading } = useAuth()
 
     const submitForm = async (e) => {
         e.preventDefault()
@@ -34,7 +33,8 @@ function SignUpForm(props) {
         if (password !== passwordConfirm) {
             return setError("Passwords do not match")
         }
-        authSignup(email, password)
+        await authSignup(email, password)
+
     }
 
 
@@ -47,7 +47,6 @@ function SignUpForm(props) {
                 </Avatar>
                 <Typography variant="h5">Sign Up</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
-
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>

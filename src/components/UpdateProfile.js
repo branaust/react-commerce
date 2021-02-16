@@ -20,7 +20,7 @@ function UpdateProfile(props) {
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
     const [bio, updateBio] = useInputState("")
-    const { user, updateUserPassword, updateUserEmail } = useAuth()
+    const { currentUser, updateUserPassword, updateUserEmail } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -66,7 +66,7 @@ function UpdateProfile(props) {
                 <form className={classes.form} onSubmit={submitForm}>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="email" shrink>Email</InputLabel>
-                        <Input id="email" name='email' value={email} placeholder={user.email} onChange={updateEmail} autoFocus required={false} ></Input>
+                        <Input id="email" name='email' value={email} placeholder={currentUser.email} onChange={updateEmail} autoFocus required={false} ></Input>
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="password" shrink>Password</InputLabel>

@@ -22,7 +22,7 @@ function SignInForm(props) {
     const { classes } = props
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
-    const { authLogin } = useAuth()
+    const { authLogin, userData } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -35,12 +35,15 @@ function SignInForm(props) {
             setError('')
             setLoading(true)
             await authLogin(email, password)
+            await userData()
             history.push('/')
         } catch {
             setError('Failed to log in')
         }
         setLoading(false)
     }
+
+
 
     return (
         <main className={classes.main}>

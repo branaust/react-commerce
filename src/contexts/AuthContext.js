@@ -10,7 +10,8 @@ export function useAuth() {
 
 export function AuthProvider(props) {
 
-    const [user, setUser] = useState()
+    const [currentUser, setCurrentUser] = useState("")
+    const [currentUserData, setCurrentUserData] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
@@ -21,15 +22,20 @@ export function AuthProvider(props) {
     const authSignup = async (email, password) => {
         try {
             await auth.createUserWithEmailAndPassword(email, password)
-            // .then(cred => {
-            //     return db.collection('users').doc(cred.user.uid).set({
-            //         bio: s
-            //     })
-            // })
-            history.push('/')
-            setMessage("Account Created")
-            setSuccess(true)
-            setLoading(false)
+                .then(() => {
+                    db.collection('users').doc(auth.currentUser.uid)
+                        .set({
+                            firstName: null,
+                            lastName: null,
+                            birthday: null,
+                            email: email
+                        }).then(() => {
+                            setMessage("Account Created")
+                            setSuccess(true)
+                            setLoading(false)
+                        })
+                })
+            !!!!!!!history.push('/')
         } catch (error) {
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -42,8 +48,8 @@ export function AuthProvider(props) {
 
     }
 
-    function authLogin(email, password) {
-        return auth.signInWithEmailAndPassword(email, password)
+    const authLogin = async (email, password) => {
+        await auth.signInWithEmailAndPassword(email, password)
     }
 
     function authLogout() {
@@ -55,17 +61,27 @@ export function AuthProvider(props) {
     }
 
     function updateUserEmail(email) {
-        return user.updateEmail(email)
+        return currentUser.updateEmail(email)
     }
 
     function updateUserPassword(password) {
-        return user.updatePassword(password)
+        return currentUser.updatePassword(password)
     }
 
 
+    function userData() {
+        db.collection('users')
+            .doc(currentUser.uid)
+            .get()
+            .then(doc => {
+                setCurrentUserData(doc.data())
+            })
+            .catch(error => console.log(error))
+    }
+
     useEffect(() => {
         const unsubscribe = auth.onIdTokenChanged(user => {
-            setUser(user)
+            setCurrentUser(user)
             setLoading(false)
 
         })
@@ -83,13 +99,15 @@ export function AuthProvider(props) {
         setSuccess,
         message,
         setMessage,
-        user,
+        currentUser,
+        currentUserData,
         authSignup,
         authLogin,
         authLogout,
         resetPassword,
         updateUserEmail,
         updateUserPassword,
+        userData
     }
 
     return (
