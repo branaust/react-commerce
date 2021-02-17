@@ -22,7 +22,7 @@ function SignInForm(props) {
     const { classes } = props
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
-    const { authLogin, userData } = useAuth()
+    const { authLogin, userData, currentUser } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -31,15 +31,17 @@ function SignInForm(props) {
     const submitForm = async (e) => {
         e.preventDefault()
 
-        try {
-            setError('')
-            setLoading(true)
-            await authLogin(email, password)
-            await userData()
-            history.push('/')
-        } catch {
-            setError('Failed to log in')
-        }
+
+        setError('')
+        setLoading(true)
+        await authLogin(email, password)
+            .then(setTimeout(() => {
+                history.push('/')
+            }, 1000))
+
+            .catch((error) => {
+                setError('Failed to log in')
+            })
         setLoading(false)
     }
 

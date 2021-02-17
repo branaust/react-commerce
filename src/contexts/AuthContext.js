@@ -34,6 +34,7 @@ export function AuthProvider(props) {
                         setMessage("Account Created")
                         setSuccess(true)
                         setLoading(false)
+                        userData()
                     })
 
             })
@@ -52,7 +53,7 @@ export function AuthProvider(props) {
     }
 
     const authLogin = async (email, password) => {
-        await auth.signInWithEmailAndPassword(email, password)
+        await auth.signInWithEmailAndPassword(email, password).then(userData())
     }
 
     function authLogout() {
@@ -86,10 +87,10 @@ export function AuthProvider(props) {
         const unsubscribe = auth.onIdTokenChanged(user => {
             setCurrentUser(user)
             setLoading(false)
-
+            userData()
         })
         return unsubscribe
-    }, [history])
+    }, [])
 
 
 

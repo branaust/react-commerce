@@ -17,18 +17,17 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <UserProvider>
-          <Navbar />
-          <Switch>
-            <PrivateRoute exact path="/" component={Dashboard} />
-            <PrivateRoute path="/update-profile" component={UpdateProfile} />
-            <Route path="/signup" component={SignUpForm} />
-            <Route path="/login" component={SignInForm} />
-            <Route path="/forgot-password" component={ForgotPassword} />
-          </Switch>
-        </UserProvider >
+
+        <Navbar />
+        <Switch>
+          <PrivateRoute exact path="/" component={Dashboard} />
+          <PrivateRoute path="/update-profile" component={UpdateProfile} />
+          <Route path="/signup" component={SignUpForm} />
+          <Route path="/login" component={SignInForm} />
+          <Route path="/forgot-password" component={ForgotPassword} />
+        </Switch>
       </AuthProvider>
-    </Router>
+    </Router >
 
   );
 }
