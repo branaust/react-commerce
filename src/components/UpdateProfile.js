@@ -27,7 +27,6 @@ function UpdateProfile(props) {
 
     const submitForm = (e) => {
         e.preventDefault()
-
         if (password !== passwordConfirm) {
             return setError("Passwords do not match")
         }
