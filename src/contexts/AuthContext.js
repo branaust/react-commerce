@@ -88,9 +88,10 @@ export function AuthProvider(props) {
     }
 
     function updateUserInfo(firstName) {
-        currentUserData.update({
-            "firstName": firstName
-        })
+        db.collection('users')
+            .doc(currentUser.uid).update({
+                "firstName": firstName
+            }).then(history.push('/'))
     }
 
 
@@ -135,7 +136,9 @@ export function AuthProvider(props) {
         updateEmail,
         password,
         updatePassword,
-        updateUserInfo
+        updateUserInfo,
+        firstName,
+        updateFirstName
     }
 
     return (
