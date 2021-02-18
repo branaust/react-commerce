@@ -10,31 +10,33 @@ export function useAuth() {
 }
 
 export function AuthProvider(props) {
+
     const [currentUser, setCurrentUser] = useState("")
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [currentUserData, setCurrentUserData] = useState("")
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
     const history = useHistory()
 
+
     const authSignup = async (email, password) => {
+
         await auth.createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                return db.collection('users').doc(auth.currentUser.uid)
+            .then(async () => {
+                await db.collection('users').doc(auth.currentUser.uid)
                     .set({
                         firstName: null,
                         lastName: null,
                         birthday: null,
                         email: email
-                    }).then(() => {
-                        history.push('/')
-                        setMessage("Account Created")
-                        setLoading(false)
                     })
+                history.push('/')
+                setMessage("Account Created")
+                setTimeout(() => { setMessage("") }, 3500)
+                setLoading(false)
             })
-
             .catch((error) => {
                 let errorCode = error.code;
                 let errorMessage = error.message;
@@ -42,25 +44,26 @@ export function AuthProvider(props) {
                     setError(errorMessage);
                     setLoading(false)
                 }
-            }
-
-
-            )
+            })
     }
 
     const handleLogin = (e) => {
         e.preventDefault()
         setError('')
+        setLoading(true)
         try {
-            setLoading(true)
             e.preventDefault()
             authLogin(email, password)
-            history.push('/')
+            setMessage('Logged In Successfully')
+            setTimeout(() => { setMessage("") }, 3500)
+            // 
+            setLoading(false)
         }
         catch {
-            setError('Failed to log in')
+            setTimeout(() => { setError('Failed to log in') }, 1000)
+            console.log('failed')
         }
-        setLoading(false)
+
     }
 
     const authLogin = async (email, password) => {
@@ -83,39 +86,35 @@ export function AuthProvider(props) {
         return currentUser.updatePassword(password)
     }
 
-    const userData = (user) => {
-        if (user) {
-            db.collection('users')
-                .doc(user.uid)
-                .get()
-                .then(doc => {
-                    setCurrentUserData(doc.data())
-                    console.log('IN USER DATA')
-                })
-                .catch(error => console.log(error))
-        }
-    }
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 setCurrentUser(user)
-                userData(user)
+                db.collection('users')
+                    .doc(user.uid)
+                    .get()
+                    .then(doc => {
+                        setCurrentUserData(doc.data())
+                        history.push('/')
+                    })
             } else {
-                console.log('user logged out')
                 setCurrentUser(null)
+                setCurrentUserData(null)
             }
             setLoading(false)
         })
         return unsubscribe
-    }, [])
-
+    }, [history])
 
 
     const value = {
         error,
+        setError,
         loading,
+        setLoading,
         message,
+        setMessage,
         currentUser,
         currentUserData,
         authSignup,
