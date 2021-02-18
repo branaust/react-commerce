@@ -14,6 +14,7 @@ export function AuthProvider(props) {
     const [currentUser, setCurrentUser] = useState("")
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
+    const [firstName, updateFirstName] = useInputState("")
     const [currentUserData, setCurrentUserData] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -86,6 +87,12 @@ export function AuthProvider(props) {
         return currentUser.updatePassword(password)
     }
 
+    function updateUserInfo(firstName) {
+        currentUserData.update({
+            "firstName": firstName
+        })
+    }
+
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -127,7 +134,8 @@ export function AuthProvider(props) {
         email,
         updateEmail,
         password,
-        updatePassword
+        updatePassword,
+        updateUserInfo
     }
 
     return (

@@ -19,8 +19,8 @@ function UpdateProfile(props) {
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
-    const [bio, updateBio] = useInputState("")
-    const { currentUser, updateUserPassword, updateUserEmail } = useAuth()
+    const { firstName, updateFirstName } = useAuth()
+    const { currentUser, updateUserPassword, updateUserEmail, updateUserInfo } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -40,6 +40,10 @@ function UpdateProfile(props) {
         if (password) {
             promises.push(updateUserPassword(password))
         }
+        if (firstName) {
+            updateUserInfo(firstName)
+        }
+        !!!!!
 
         Promise.all(promises).then(() => {
             history.push('/')
@@ -76,8 +80,8 @@ function UpdateProfile(props) {
                         <Input id="password" name='password' value={passwordConfirm} type="password" onChange={updatePasswordConfirm} autoFocus required={false}></Input>
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="bio" shrink>Bio</InputLabel>
-                        <Input id="bio" name='bio' onChange={updateBio} autoFocus required={false}></Input>
+                        <InputLabel htmlFor="firstName" shrink>First Name</InputLabel>
+                        <Input id="firstName" name='firstName' onChange={updateFirstName} autoFocus required={false}></Input>
                     </FormControl>
 
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Update</Button>
