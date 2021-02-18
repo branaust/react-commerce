@@ -34,10 +34,9 @@ function Dashboard(props) {
                 <h1>Profile</h1>
                 {error && <Alert severity="error">{error}</Alert>}
                 <ul>
-                    <li>{currentUserData.email}</li>
                     <li>{currentUserData.firstName}</li>
                     <li>{currentUserData.lastName}</li>
-                    <li>{currentUserData.birthday}</li>
+                    <li>{currentUserData.ebayUserName}</li>
                 </ul>
 
                 <h3>Email: {currentUser.email}</h3>
@@ -47,6 +46,9 @@ function Dashboard(props) {
                 </Link>
             </Paper >
             <Typography className={classes.root}>
+                <Link to="/my-slabs" className={classes.link}>
+                    My Slabs
+                </Link>
                 <Button
                     onClick={handleLogout}
                     variant="contained"
@@ -54,6 +56,7 @@ function Dashboard(props) {
                     className={classes.submit}>
                     Logout
                 </Button>
+
             </Typography>
         </main >
     )

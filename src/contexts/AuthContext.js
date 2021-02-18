@@ -15,6 +15,8 @@ export function AuthProvider(props) {
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [firstName, updateFirstName] = useInputState("")
+    const [lastName, updateLastName] = useInputState("")
+    const [ebayUserName, updateEbayUserName] = useInputState("")
     const [currentUserData, setCurrentUserData] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -30,7 +32,7 @@ export function AuthProvider(props) {
                     .set({
                         firstName: null,
                         lastName: null,
-                        birthday: null,
+                        ebayUserName: null,
                         email: email
                     })
                 history.push('/')
@@ -87,11 +89,19 @@ export function AuthProvider(props) {
         return currentUser.updatePassword(password)
     }
 
-    function updateUserInfo(firstName) {
+    function updateUserInfo(firstName, lastName, ebayUserName, email) {
         db.collection('users')
             .doc(currentUser.uid).update({
-                "firstName": firstName
+                "email": email,
+                "firstName": firstName,
+                "lastName": lastName,
+                "ebayUserName": ebayUserName
             }).then(history.push('/'))
+
+        currentUserData.firstName = firstName
+        currentUserData.lastName = lastName
+        currentUserData.ebayUserName = ebayUserName
+        setCurrentUserData(currentUserData)
     }
 
 
@@ -104,6 +114,7 @@ export function AuthProvider(props) {
                     .get()
                     .then(doc => {
                         setCurrentUserData(doc.data())
+                        // MUST REARANGE vvvv
                         history.push('/')
                     })
             } else {
@@ -138,7 +149,11 @@ export function AuthProvider(props) {
         updatePassword,
         updateUserInfo,
         firstName,
-        updateFirstName
+        updateFirstName,
+        lastName,
+        updateLastName,
+        ebayUserName,
+        updateEbayUserName
     }
 
     return (

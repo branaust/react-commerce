@@ -19,8 +19,21 @@ function UpdateProfile(props) {
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
     const [passwordConfirm, updatePasswordConfirm] = useInputState("")
-    const { firstName, updateFirstName } = useAuth()
-    const { currentUser, updateUserPassword, updateUserEmail, updateUserInfo, currentUserData } = useAuth()
+
+    const {
+        firstName,
+        updateFirstName,
+        lastName,
+        updateLastName,
+        ebayUserName,
+        updateEbayUserName,
+        currentUser,
+        updateUserPassword,
+        updateUserEmail,
+        updateUserInfo,
+        currentUserData
+    } = useAuth()
+
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -35,13 +48,13 @@ function UpdateProfile(props) {
         setLoading(true)
         setError("")
         if (email) {
-            promises.push(updateUserEmail(email))
+            updateUserEmail(email)
         }
         if (password) {
             promises.push(updateUserPassword(password))
         }
-        if (firstName) {
-            updateUserInfo(firstName)
+        if (firstName || lastName || ebayUserName) {
+            updateUserInfo(firstName, lastName, ebayUserName)
         }
 
 
@@ -77,11 +90,19 @@ function UpdateProfile(props) {
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="passwordConfirm" shrink>Confirm Password</InputLabel>
-                        <Input id="password" name='password' value={passwordConfirm} type="password" onChange={updatePasswordConfirm} autoFocus required={false}></Input>
+                        <Input id="passwordConfirm" name='passwordConfirm' value={passwordConfirm} type="password" onChange={updatePasswordConfirm} autoFocus required={false}></Input>
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName" shrink>First Name</InputLabel>
                         <Input id="firstName" name='firstName' placeholder={currentUserData.firstName} onChange={updateFirstName} autoFocus required={false}></Input>
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName" shrink>Last Name</InputLabel>
+                        <Input id="lastName" name='lastName' placeholder={currentUserData.lastName} onChange={updateLastName} autoFocus required={false}></Input>
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="ebayUserName" shrink>Ebay Username</InputLabel>
+                        <Input id="ebayUserName" name='ebayUserName' placeholder={currentUserData.ebayUserName} onChange={updateEbayUserName} autoFocus required={false}></Input>
                     </FormControl>
 
                     <Button variant="contained" type="submit" fullWidth color="primary" className={classes.submit} disabled={loading}>Update</Button>
