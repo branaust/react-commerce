@@ -6,9 +6,6 @@ import Dashboard from '../components/Dashboard'
 import ForgotPassword from '../components/ForgotPassword'
 import UpdateProfile from '../components/UpdateProfile'
 import { AuthProvider } from '../contexts/AuthContext'
-import { UserProvider } from '../contexts/UserContext'
-
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from '../components/PrivateRoute'
 
@@ -17,7 +14,6 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-
         <Navbar />
         <Switch>
           <PrivateRoute exact path="/" component={Dashboard} />

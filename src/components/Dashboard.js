@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-// import { useDB } from '../contexts/UserContext'
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Alert from '@material-ui/lab/Alert';
 import styles from '../styles/FormStyles'
-import { useDB } from '../contexts/UserContext'
+
 
 function Dashboard(props) {
     const { classes } = props

@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth, db } from '../firebase'
 import { useHistory } from 'react-router-dom'
+import useInputState from '../hooks/useInputState'
 
 export const AuthContext = React.createContext()
 
@@ -9,21 +10,19 @@ export function useAuth() {
 }
 
 export function AuthProvider(props) {
-
     const [currentUser, setCurrentUser] = useState("")
+    const [email, updateEmail] = useInputState("")
+    const [password, updatePassword] = useInputState("")
     const [currentUserData, setCurrentUserData] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
-    const [success, setSuccess] = useState('false')
     const history = useHistory()
 
-
     const authSignup = async (email, password) => {
-
         await auth.createUserWithEmailAndPassword(email, password)
             .then(() => {
-                db.collection('users').doc(auth.currentUser.uid)
+                return db.collection('users').doc(auth.currentUser.uid)
                     .set({
                         firstName: null,
                         lastName: null,
@@ -32,11 +31,8 @@ export function AuthProvider(props) {
                     }).then(() => {
                         history.push('/')
                         setMessage("Account Created")
-                        setSuccess(true)
                         setLoading(false)
-                        userData()
                     })
-
             })
 
             .catch((error) => {
@@ -52,8 +48,23 @@ export function AuthProvider(props) {
             )
     }
 
+    const handleLogin = (e) => {
+        e.preventDefault()
+        setError('')
+        try {
+            setLoading(true)
+            e.preventDefault()
+            authLogin(email, password)
+            history.push('/')
+        }
+        catch {
+            setError('Failed to log in')
+        }
+        setLoading(false)
+    }
+
     const authLogin = async (email, password) => {
-        await auth.signInWithEmailAndPassword(email, password).then(userData())
+        await auth.signInWithEmailAndPassword(email, password)
     }
 
     function authLogout() {
@@ -72,22 +83,29 @@ export function AuthProvider(props) {
         return currentUser.updatePassword(password)
     }
 
-
-    function userData() {
-        db.collection('users')
-            .doc(currentUser.uid)
-            .get()
-            .then(doc => {
-                setCurrentUserData(doc.data())
-            })
-            .catch(error => console.log(error))
+    const userData = (user) => {
+        if (user) {
+            db.collection('users')
+                .doc(user.uid)
+                .get()
+                .then(doc => {
+                    setCurrentUserData(doc.data())
+                    console.log('IN USER DATA')
+                })
+                .catch(error => console.log(error))
+        }
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onIdTokenChanged(user => {
-            setCurrentUser(user)
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                setCurrentUser(user)
+                userData(user)
+            } else {
+                console.log('user logged out')
+                setCurrentUser(null)
+            }
             setLoading(false)
-            userData()
         })
         return unsubscribe
     }, [])
@@ -96,13 +114,8 @@ export function AuthProvider(props) {
 
     const value = {
         error,
-        setError,
         loading,
-        setLoading,
-        success,
-        setSuccess,
         message,
-        setMessage,
         currentUser,
         currentUserData,
         authSignup,
@@ -111,7 +124,11 @@ export function AuthProvider(props) {
         resetPassword,
         updateUserEmail,
         updateUserPassword,
-        userData
+        handleLogin,
+        email,
+        updateEmail,
+        password,
+        updatePassword
     }
 
     return (

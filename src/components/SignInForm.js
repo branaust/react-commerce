@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -13,39 +13,20 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../styles/FormStyles'
-import useInputState from '../hooks/useInputState'
-
 import Alert from '@material-ui/lab/Alert';
 
 
 function SignInForm(props) {
     const { classes } = props
-    const [email, updateEmail] = useInputState("")
-    const [password, updatePassword] = useInputState("")
-    const { authLogin, userData, currentUser } = useAuth()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    const history = useHistory()
-
-
-    const submitForm = async (e) => {
-        e.preventDefault()
-
-
-        setError('')
-        setLoading(true)
-        await authLogin(email, password)
-            .then(setTimeout(() => {
-                history.push('/')
-            }, 1000))
-
-            .catch((error) => {
-                setError('Failed to log in')
-            })
-        setLoading(false)
-    }
-
-
+    const {
+        loading,
+        error,
+        handleLogin,
+        email,
+        updateEmail,
+        password,
+        updatePassword
+    } = useAuth()
 
     return (
         <main className={classes.main}>
@@ -55,7 +36,7 @@ function SignInForm(props) {
                 </Avatar>
                 <Typography variant="h5">Sign In</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
-                <form className={classes.form} onSubmit={submitForm}>
+                <form className={classes.form} onSubmit={handleLogin}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input id="email" name='email' value={email} onChange={updateEmail} autoFocus></Input>
