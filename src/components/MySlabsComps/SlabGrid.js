@@ -11,14 +11,9 @@ const SlabGrid = (props) => {
     const { docs } = useFirestore(`users/${auth.currentUser.uid}/my-slabs`)
     const { classes } = props
 
-    const handleClick = (e) => {
-        if (e.target.classList.contains('imgGrid')) {
-            toggleOpen()
-        }
-    }
 
     return (
-        <div className={classes.imgGrid} onClick={toggleOpen}>
+        <div className={classes.imgGrid}>
             {open && <TransitionsModal />}
             {docs && docs.map(doc => (
                 <div className={classes.imgWrap} key={doc.id} onClick={() => setSelectedImg(doc.url)} >

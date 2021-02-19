@@ -1,17 +1,18 @@
 const styles = theme => ({
 
     imgGrid: {
-        margin: '20px auto',
+        margin: '50px 100px',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr',
         gridGap: '40px'
     },
     imgWrap: {
         overflow: "hidden",
-        height: '0',
+        height: '150px',
+        width: "",
         padding: '50% 0',
         position: 'relative',
-        opacity: '0.8',
+        borderRadius: '12px',
 
         "& img": {
             minWidth: '100%',
@@ -20,11 +21,12 @@ const styles = theme => ({
             position: 'absolute',
             top: 0,
             left: 0,
-            
-        }
+            height: 'auto'
+        },
+        "&:hover": {
+            cursor: "pointer"
+        },
     },
-
-
 })
 
 
