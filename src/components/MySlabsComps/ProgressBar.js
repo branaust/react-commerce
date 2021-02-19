@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import useStorage from '../../hooks/useStorage'
-import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import { makeStyles } from '@material-ui/core/styles';
+// import LinearProgress from '@material-ui/core/LinearProgress';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../styles/ProgressBarStyles'
 
