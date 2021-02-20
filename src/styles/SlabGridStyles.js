@@ -1,15 +1,15 @@
 const styles = theme => ({
 
     imgGrid: {
-        margin: '50px 100px',
+        margin: '50px 180px',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr',
-        gridGap: '40px'
+        gridGap: '60px'
     },
     imgWrap: {
         overflow: "hidden",
-        height: '150px',
-        width: "",
+        height: '220px',
+        width: "auto",
         padding: '50% 0',
         position: 'relative',
         borderRadius: '12px',
@@ -17,11 +17,13 @@ const styles = theme => ({
         "& img": {
             minWidth: '100%',
             minHeight: '100%',
-            maxWidth: '150%',
+            maxHeight: '100%',
+            maxWidth: '100%',
+            height: 'auto',
             position: 'absolute',
             top: 0,
             left: 0,
-            height: 'auto'
+            margin: 'auto'
         },
         "&:hover": {
             cursor: "pointer"
