@@ -3,6 +3,7 @@ const styles = (theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+
     },
     backdrop: {
         position: "fixed",
@@ -16,34 +17,27 @@ const styles = (theme) => ({
 
     },
     paper: {
-
         textDecoration: "none",
         outline: "none",
-        width: "120%",
-        height: "auto"
+        height: "auto",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+
     },
-    // },
-    // backdropImg: {
-    //     display: 'block',
-    //     maxHeight: "80%",
-    //     maxWidth: "60%",
-    //     margin: "60px auto",
-    //     boxShadow: "3px 5px 7px rgba(0,0,0,0.5)",
-    //     border: "3px solid white",
-    //     textDecoration: "none",
-    //     outline: "none",
-    //     zIndex: 1
-    // },
     root: {
-        padding: '0px 20px',
+        padding: '0px 50px',
+        position: 'relative',
+
     },
     media: {
         paddingTop: '170%', // 16:9
-        display: 'block',
         height: '100%',
+        width: 'auto',
         margin: "5px auto",
         marginLeft: "10px",
         marginRight: "10px",
+
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -58,6 +52,16 @@ const styles = (theme) => ({
     avatar: {
         backgroundColor: '#982332',
     },
+    card: {
+
+    },
+    drawer: {
+        display: 'grid',
+        gridColumn: '2/3',
+    },
+    drawerPaper: {
+        position: 'absolute'
+    }
 });
 
 export default styles

@@ -20,12 +20,29 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
 
 
 function TransitionsModal(props) {
     const { classes } = props
     const { open, toggleOpen, selectedImg } = useContext(DisplayContext)
     const [expanded, setExpanded] = useState(false);
+    const [drawer, setDrawer] = useState(false)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -33,9 +50,13 @@ function TransitionsModal(props) {
 
     const handleClick = (e) => {
         if (!e.target.classList.contains((classes.paper))) {
-            toggleOpen()
+            // toggleOpen()
         }
     }
+
+    const handleDrawer = () => {
+        setDrawer(!drawer);
+    };
 
     return (
         <div className={classes.backdrop}
@@ -55,6 +76,7 @@ function TransitionsModal(props) {
                     }}
                 >
                     <Fade in={open}>
+
                         <Card className={classes.root}>
                             <CardHeader
                                 avatar={
@@ -86,33 +108,56 @@ function TransitionsModal(props) {
                                 <IconButton aria-label="share">
                                     <ShareIcon />
                                 </IconButton>
-                                <IconButton
+                                {/* <IconButton
                                     className={clsx(classes.expand, {
                                         [classes.expandOpen]: expanded,
                                     })}
-                                    onClick={handleExpandClick}
+                                    onClick={handleDrawer}
                                     aria-expanded={expanded}
                                     aria-label="show more"
                                 >
                                     <ExpandMoreIcon />
-                                </IconButton>
+                                </IconButton> */}
                             </CardActions>
-                            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                <CardContent>
-                                    <Typography paragraph>Method:</Typography>
-
-                                </CardContent>
-                            </Collapse>
+                            {/* <Drawer
+                                className={classes.drawer}
+                                variant="persistent"
+                                anchor="right"
+                                open={drawer}
+                                classes={{
+                                    paper: classes.drawerPaper,
+                                }}
+                            >
+                                <div className={classes.drawerHeader}>
+                                    <IconButton onClick={handleDrawer}>
+                                        <ChevronLeftIcon />
+                                    </IconButton>
+                                </div>
+                                <Divider />
+                                <List>
+                                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                                        <ListItem button key={text}>
+                                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                            <ListItemText primary={text} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                                <Divider />
+                                <List>
+                                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                                        <ListItem button key={text}>
+                                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                            <ListItemText primary={text} />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Drawer> */}
 
                         </Card>
-                        {/* <div className={classes.paper}>
-                        <img className={classes.backdropImg} src={selectedImg.url} alt="Modal Img" />
-
-                    </div> */}
                     </Fade>
                 </Modal>
             </div>
-        </div>
+        </div >
     );
 }
 
