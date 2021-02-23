@@ -47,14 +47,21 @@ function UpdateProfile(props) {
         const promises = []
         setLoading(true)
         setError("")
+
         if (email) {
             updateUserEmail(email)
         }
         if (password) {
             promises.push(updateUserPassword(password))
         }
-        if (firstName || lastName || ebayUserName) {
-            updateUserInfo(firstName, lastName, ebayUserName)
+        if (firstName) {
+            promises.push(updateUserInfo(firstName))
+        }
+        if (lastName !== null) {
+            promises.push(updateUserInfo(lastName))
+        }
+        if (ebayUserName !== null) {
+            promises.push(updateUserInfo(ebayUserName))
         }
 
 

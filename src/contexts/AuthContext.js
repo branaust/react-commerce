@@ -14,9 +14,9 @@ export function AuthProvider(props) {
     const [currentUser, setCurrentUser] = useState("")
     const [email, updateEmail] = useInputState("")
     const [password, updatePassword] = useInputState("")
-    const [firstName, updateFirstName] = useInputState("")
-    const [lastName, updateLastName] = useInputState("")
-    const [ebayUserName, updateEbayUserName] = useInputState("")
+    const [firstName, updateFirstName] = useInputState(currentUser.firstName)
+    const [lastName, updateLastName] = useInputState(null)
+    const [ebayUserName, updateEbayUserName] = useInputState(null)
     const [currentUserData, setCurrentUserData] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -71,7 +71,7 @@ export function AuthProvider(props) {
     }
 
     const authLogin = async (email, password) => {
-        await auth.signInWithEmailAndPassword(email, password).then(() => { history.push('/') })
+        await auth.signInWithEmailAndPassword(email, password).then(history.push('/'))
     }
 
     function authLogout() {
@@ -90,12 +90,12 @@ export function AuthProvider(props) {
         return currentUser.updatePassword(password)
     }
 
-    function updateUserInfo(firstName, lastName, ebayUserName, email) {
+    function updateUserInfo() {
         db.collection('users')
             .doc(currentUser.uid).update({
-                "firstName": firstName,
-                "lastName": lastName,
-                "ebayUserName": ebayUserName
+                firstName,
+                lastName,
+                ebayUserName
             }).then(history.push('/'))
 
         currentUserData.firstName = firstName
@@ -117,8 +117,6 @@ export function AuthProvider(props) {
                     .get()
                     .then(doc => {
                         setCurrentUserData(doc.data())
-                        // MUST REARANGE vvvv
-
                     })
                 setLoading(false)
             }

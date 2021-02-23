@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { auth, db, projectStorage, timestamp } from '../firebase'
 
 
-const useStorage = (file, title) => {
+const useStorage = (file) => {
     const [progress, setProgress] = useState(0)
     const [error, setError] = useState(null)
-    const [url, setUrl] = useState(null)
+    const [url, setUrl] = useState(null) 
 
     useEffect(() => {
         // references
