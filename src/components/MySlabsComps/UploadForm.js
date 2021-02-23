@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import ProgressBar from './ProgressBar'
+import useInputState from '../../hooks/useInputState'
 
 const UploadForm = () => {
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null)
+    const { title, setTitle } = useInputState("")
 
     const types = ['image/png', 'image/jpeg'];
 
@@ -22,7 +24,9 @@ const UploadForm = () => {
 
     return (
         <form>
-            <input type="file" onChange={handleChange} />
+            <input type="file" onChange={handleChange} required={true} />
+            <input type="text" />
+
             <div className="output">
                 {error && <div className="error">{error}</div>}
                 {file && <div>{file.name}</div>}

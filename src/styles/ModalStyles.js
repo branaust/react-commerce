@@ -28,7 +28,7 @@ const styles = (theme) => ({
     root: {
         padding: '0px 50px',
         position: 'relative',
-
+        zIndex: '100000'
     },
     media: {
         paddingTop: '170%', // 16:9
@@ -53,7 +53,7 @@ const styles = (theme) => ({
         backgroundColor: '#982332',
     },
     card: {
-
+        zIndex: '1000'
     },
     drawer: {
         display: 'grid',

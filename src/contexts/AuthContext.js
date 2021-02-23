@@ -58,8 +58,9 @@ export function AuthProvider(props) {
             e.preventDefault()
             authLogin(email, password)
             setMessage('Logged In Successfully')
+
             setTimeout(() => { setMessage("") }, 3500)
-            // 
+
             setLoading(false)
         }
         catch {
@@ -70,7 +71,7 @@ export function AuthProvider(props) {
     }
 
     const authLogin = async (email, password) => {
-        await auth.signInWithEmailAndPassword(email, password)
+        await auth.signInWithEmailAndPassword(email, password).then(() => { history.push('/') })
     }
 
     function authLogout() {
@@ -92,7 +93,6 @@ export function AuthProvider(props) {
     function updateUserInfo(firstName, lastName, ebayUserName, email) {
         db.collection('users')
             .doc(currentUser.uid).update({
-                "email": email,
                 "firstName": firstName,
                 "lastName": lastName,
                 "ebayUserName": ebayUserName
@@ -107,7 +107,10 @@ export function AuthProvider(props) {
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
+
             if (user) {
+                window.localStorage.setItem("currentUser", JSON.stringify(user.uid))
+                console.log(window.localStorage.getItem(currentUser))
                 setCurrentUser(user)
                 db.collection('users')
                     .doc(user.uid)
@@ -115,16 +118,19 @@ export function AuthProvider(props) {
                     .then(doc => {
                         setCurrentUserData(doc.data())
                         // MUST REARANGE vvvv
-                        history.push('/')
+
                     })
-            } else {
+                setLoading(false)
+            }
+            else {
                 setCurrentUser(null)
                 setCurrentUserData(null)
+                window.localStorage.setItem("currentUser", null)
             }
-            setLoading(false)
+
         })
         return unsubscribe
-    }, [history])
+    }, [history, currentUser])
 
 
     const value = {

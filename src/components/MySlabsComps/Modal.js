@@ -41,34 +41,17 @@ import MailIcon from '@material-ui/icons/Mail';
 function TransitionsModal(props) {
     const { classes } = props
     const { open, toggleOpen, selectedImg } = useContext(DisplayContext)
-    const [expanded, setExpanded] = useState(false);
-    const [drawer, setDrawer] = useState(false)
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
-    const handleClick = (e) => {
-        if (!e.target.classList.contains((classes.paper))) {
-            // toggleOpen()
-        }
-    }
-
-    const handleDrawer = () => {
-        setDrawer(!drawer);
-    };
 
     return (
-        <div className={classes.backdrop}
-            onClick={handleClick}
-        >
+        <div className={classes.backdrop}>
             <div className={classes.card}>
                 <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
                     className={classes.modal}
                     open={open}
-                    // onClick={toggleOpen}
+                    onClose={toggleOpen}
                     closeAfterTransition
                     BackdropComponent={Backdrop}
                     BackdropProps={{
@@ -79,14 +62,15 @@ function TransitionsModal(props) {
 
                         <Card className={classes.root}>
                             <CardHeader
+                                className={classes.card}
                                 avatar={
-                                    <Avatar aria-label="recipe" className={classes.avatar}>
+                                    <Avatar aria-label="recipe" className={`${classes.avatar} ${classes.card}`}>
                                         9.5
                                 </Avatar>
                                 }
                                 action={
-                                    <IconButton aria-label="settings">
-                                        <MoreVertIcon />
+                                    <IconButton aria-label="settings" >
+                                        <MoreVertIcon className={`${classes.card}`} />
                                     </IconButton>
                                 }
                                 title="2001 Topps Traded Gold"

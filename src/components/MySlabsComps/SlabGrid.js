@@ -7,11 +7,10 @@ import TransitionsModal from './Modal'
 import { DisplayContext } from '../../contexts/DisplayContext'
 
 const SlabGrid = (props) => {
-    const { open, toggleOpen, setSelectedImg, selectedImg } = useContext(DisplayContext)
-    const { docs } = useFirestore(`users/${auth.currentUser.uid}/my-slabs`)
+    const me = JSON.parse(localStorage.getItem("currentUser"))
+    const { open, toggleOpen, setSelectedImg } = useContext(DisplayContext)
+    const { docs } = useFirestore(`users/${me}/my-slabs`)
     const { classes } = props
-
-    console.log(selectedImg)
 
     return (
         <div className={classes.imgGrid}>
